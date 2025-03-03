@@ -1,0 +1,234 @@
+\documentclass[a4paper, 12pt]{book}
+
+\title{Размышления об общей топологии}
+\author{Кумаллагов Д. З. \\ Муравья Н. Р.}
+
+\usepackage{itmobook}
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
+\usepackage{tikz-cd}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{titletoc}
+\usepackage{pgfplots}
+\usepackage{subcaption}
+\usepackage{tikz-3dplot}
+\usepackage{esint}
+\usepackage{tikz-cd}
+\usepackage{amsmath}  
+\usepackage{MnSymbol}
+\usepackage{pifont}
+\usepackage{cmap} 
+\usepackage{amssymb} 
+\usepackage{ifthen}
+\usepackage{etoolbox}
+\usetikzlibrary{patterns}
+
+\makeatletter 
+\tikzset{ 
+reuse path/.code={\pgfsyssoftpath@setcurrentpath{#1}} 
+} 
+\tikzset{even odd clip/.code={\pgfseteorule}, 
+protect/.code={ 
+\clip[overlay,even odd clip,reuse path=#1] 
+(current bounding box.south west) rectangle (current bounding box.north east)
+; 
+}} 
+\makeatother 
+\usetikzlibrary{3d,arrows.meta,decorations.markings,perspective}
+\tikzset{->-/.style={decoration={
+  markings,
+  mark=at position #1 with {\arrow{>}}},postaction={decorate}},
+  ->-/.default=0.55}
+
+
+
+\newcommand{\X}{\mathbf{X}}
+\newcommand{\topX}{$\left(\X,\, \mathbf{\Omega_{\X}}\right)$}
+\newcommand{\Y}{\mathbf{Y}}
+\newcommand{\topY}{$\left(\Y,\, \mathbf{\Omega_{\Y}}\right)$}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\topZ}{$\left(\Z,\, \mathbf{\Omega_{\Z}}\right)$}
+
+\let\oldforall\forall
+\renewcommand{\forall}{\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\oldexist \: }
+\renewcommand{\Im}{\mathrm{Im}}
+\renewcommand{\Re}{\mathrm{Re}}
+\newcommand*{\defeq}{\stackrel{\text{def}}{=}}
+\DeclareMathOperator{\Der}{Der}
+
+
+\newcommand{\st}{\; : \;}
+
+\newcommand*{\open}{\raisebox{-0.75ex}{\begin{tikzpicture}
+		\draw (0,0) node {$\subset$};
+		\draw (0.1em, -0.575ex) circle (0.125em);
+\end{tikzpicture}}}
+\newcommand*{\closed}{\raisebox{-0.75ex}{\begin{tikzpicture}
+			\draw (0,0) node {$\subset$};
+			\draw[thick] (0.1em, -0.35ex) -- (0.3em, -0.85ex);
+\end{tikzpicture}}}
+
+
+\usetikzlibrary{decorations.markings, arrows.meta}
+
+
+\tikzset{
+    closed hook arrow/.style={
+        {Hooks[harpoon, length=1mm]}->, 
+        decoration={
+            markings,
+            mark=at position 0.5 with {
+                \draw[-] (-0.2em, 0.2em) -- (0.2em, -0.2em); 
+            },
+        },
+        postaction={decorate},
+    }
+}
+
+\tikzset{
+    open hook arrow/.style={
+        {Hooks[harpoon, length=1mm]}->, 
+        decoration={
+            markings,
+            mark=at position 0.5 with {
+                \draw[fill=white, draw=black] (0em, -0.05em) circle (0.15em);
+            },
+        },
+        postaction={decorate},
+    }
+}
+
+\newcommand{\cl}[1]{\mathrm{Cl}\left(#1\right)}
+\newcommand{\fr}[1]{\mathrm{Fr}\left(#1\right)}
+
+
+\newcommand{\incfig}[2][1]{%
+    \def\svgwidth{#1\columnwidth}
+    \import{./figures/}{#2.pdf_tex}
+}
+
+\newcommand{\image}[2]{
+    {\begin{center}
+   \incfig[0.8]{#1}
+   \captionof{figure}{#2 \label{#1}}  \par
+ \end{center}}
+}
+
+
+\newcommand{\mysetminusD}{\hbox{\tikz{\draw[line width=0.6pt,line cap=round] (3pt,0) -- (0,6pt);}}}
+\newcommand{\mysetminusT}{\mysetminusD}
+\newcommand{\mysetminusS}{\hbox{\tikz{\draw[line width=0.45pt,line cap=round] (2pt,0) -- (0,4pt);}}}
+\newcommand{\mysetminusSS}{\hbox{\tikz{\draw[line width=0.4pt,line cap=round] (1.5pt,0) -- (0,3pt);}}}
+
+
+\renewcommand{\setminus}{\mathbin{\mathchoice{\mysetminusD}{\mysetminusT}{\mysetminusS}{\mysetminusSS}}}
+
+\newcommand{\pr}[2]{\mathrm{pr}_{#1}(#2)}
+
+\newcommand{\starsection}[1]{%
+    \renewcommand{\thesubsection}{\Large \textcircled{\centering \small{\ding{72}}}}% Изменяем стиль номера
+    \subsection{#1}% Используем стандартную subsection
+    \renewcommand{\thesubsection}{\Large \textcircled{\centering \small{{\arabic{subsection}}}}}% Возвращаем стандартный стиль
+}
+
+
+\newcommand{\homeo}{\overset{\text{\tiny homeo}}{\cong}}
+\begin{document}
+	
+	\renewcommand{\contentsname}{\hfillОГЛАВЛЕНИЕ\hfill} 
+	\frontmatter
+	\titlepage
+	
+	\doublespacing
+	\tableofcontents
+	\let\cleardoublepage\clearpage
+	\singlespacing
+	
+	\mainmatter
+	
+	\pagestyle{style}
+	
+	
+	\chapter{Общая топология}
+	\epigraph{Узнать тебе пора, \\ Что при подъеме кажется сначала \\ Всегда крутою всякая гора. \\ Но выше мы взбираемся, и мало -  \\ Помалу путь удобнее идет,\\ И та тропа что силы отнимала, \\ Вдруг легкой станет..	\leavevmode
+	}{\itshape ``Божественная комедия''\\ Данте Алигьери}
+
+В математике существует множество разделов, которые кажутся сложными и оторванными от повседневной жизни. Однако, если копнуть глубже, выясняется, что эти абстрактные теории имеют широкий спектр применений: от физики и экономики до компьютерной графики и машинного обучения. Одним из таких разделов является \textbf{топология} — наука о свойствах пространств, которые сохраняются при их деформациях. 
+
+\bigskip
+
+В процессе изучения математического анализа мы не раз сталкивались с понятиями, которые принадлежат к топологии. Например: 
+
+\begin{itemize}
+    \item Определение предела функции \( \displaystyle \lim_{x \to a} f(x) \) требует понимания окрестностей точки.
+    \item Теория непрерывности функции формально основана на свойствах открытых множеств.
+    \item Понятие связности используется при изучении графиков функций и исследовании экстремумов.
+\end{itemize}
+
+Каждое из этих понятий уходит корнями в топологию — раздел математики, который изучает форму и структуру пространств.
+
+\bigskip
+
+История топологии начинается с задач, которые на первый взгляд не имеют ничего общего с математикой в привычном понимании. Одним из первых примеров использования топологических идей можно считать задачу о семи мостах Кёнигсберга, решённую Леонардом Эйлером в 1736 году. Эта задача, казавшаяся чисто географической, привела к созданию основы теории графов и пониманию структурных свойств объектов без привязки к их конкретной форме.
+
+\bigskip
+
+В XIX веке Бернхард Риман заложил основы анализа и геометрии, ввёл понятие \textbf{многообразия} и описал, как его можно наделить геометрической или топологической структурой. Это стало ключевым шагом в развитии математической физики, так как позволило изучать сложные поверхности, такие как сферы или торы, в абстрактной форме.
+
+\bigskip
+
+В начале XX века Анри Пуанкаре систематизировал знания о пространственных структурах и ввёл понятие гомеоморфизма — взаимно-однозначного и непрерывного отображения пространств, которое сохраняет их основные свойства. Его работы положили начало исследованию инвариантов, таких как число дыр или связность пространства. Знаменитая *гипотеза Пуанкаре*, сформулированная в 1904 году, оставалась одной из самых сложных нерешённых задач математики вплоть до её доказательства Григорием Перельманом в 2003 году.
+
+\bigskip
+
+Одним из ярких примеров, иллюстрирующих топологический подход, является известная шутка: ``Тополог не отличает кружку от бублика''. Это связано с тем, что с точки зрения топологии обе фигуры имеют одну дырку и могут быть преобразованы друг в друга через плавную деформацию.
+
+\bigskip
+
+
+Первая глава будет посвящена основам общей топологии. Мы познакомимся с такими ключевыми понятиями, как открытые множества, замыкания, базы топологий и связность. Эти определения послужат отправной точкой для более сложных конструкций, которые мы изучим в дальнейшем.
+
+\bigskip
+
+
+	
+\include{./Chapter_1/Sections/Basic_definitions}
+
+\newpage
+\include{Chapter_1/Sections/Base}
+
+\newpage
+\include{Chapter_1/Sections/Product_topology}
+
+
+\newpage
+\include{Chapter_1/Sections/Accumulation_point}
+
+
+
+\newpage
+\include{Chapter_1/Sections/Axiom}
+
+\newpage
+\include{Chapter_1/Sections/Continuous_map}
+
+\newpage
+\include{Chapter_1/Sections/Compact_space}
+
+
+\newpage
+\include{Chapter_1/Sections/Factor_space}
+	
+
+\newpage
+\include{Chapter_1/Sections/Connected_space}
+
+\newpage
+\include{Chapter_1/Sections/Projective_space}
+
+\end{document}

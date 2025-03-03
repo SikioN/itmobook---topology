@@ -1,0 +1,249 @@
+\ProvidesClass{itmobook}
+
+\RequirePackage[utf8]{inputenc} % UTF-8 кодировка
+\RequirePackage[russian]{babel} % Русский язык
+\RequirePackage{indentfirst} % красная строка в первом параграфе в главе
+% Отображение страниц
+\RequirePackage{geometry} % размеры листа и отступов\\
+\RequirePackage[usenames,dvipsnames]{xcolor}  % цвета
+\geometry{
+	left=22mm,
+	top=21mm,
+	right=25mm,
+	bottom=21mm,
+	marginparsep=0mm,
+	marginparwidth=0mm,
+	headheight=5mm,
+	headsep=2mm,
+	footskip=10mm}
+\RequirePackage{afterpage,fancyhdr} % настройка колонтитулов
+\pagestyle{fancy}
+\fancypagestyle{style}{ % создание нового стиля style
+	\fancyhf{} % очистка колонтитулов
+	\fancyhead[LO, RE]{} % название документа наверху
+	\fancyhead[RO, LE]{\rightmark} % название section наверху
+	\fancyfoot[C]{---~\thepage~---} % номер страницы справа внизу на нечетных и слева внизу на четных
+	\renewcommand{\headrulewidth}{0.25pt} % толщина линии сверху
+	\renewcommand{\footrulewidth}{0pt} % толцина линии снизу
+}
+\fancypagestyle{plain}{ % создание нового стиля plain -- полностью пустого
+	\fancyhf{}
+	\renewcommand{\headrulewidth}{0pt}
+}
+
+% Математика
+\RequirePackage{amsmath, amsfonts, amssymb, amsthm} % Набор пакетов для математических текстов
+\RequirePackage{cancel} % зачеркивание для сокращений
+% Рисунки и фигуры
+\RequirePackage[pdftex]{graphicx} % вставка рисунков
+\RequirePackage{wrapfig, subcaption} % вставка фигур, обтекая текст
+\RequirePackage{caption} % для настройки подписей
+\captionsetup{figurewithin=none,labelsep=period, font={small,it}} % настройка подписей к рисункам
+% Рисование
+\RequirePackage{tikz} % рисование
+\usetikzlibrary{calc}
+\RequirePackage{circuitikz}
+\RequirePackage{pgfplots} % графики
+% Таблицы
+\RequirePackage{multirow} % объединение строк
+\RequirePackage{multicol} % объединение столбцов
+% Остальное
+\RequirePackage[unicode, pdftex]{hyperref} % гиперссылки
+\hypersetup{
+	colorlinks = true, %цветные ссылки вместо рамок
+	urlcolor = blue, %внешние ссылки
+	linkcolor = blue, %внутренние ссылки
+	citecolor = red %ссылки на литературу
+}
+
+\RequirePackage[subfigure]{tocloft} % настройка внешнего вида оглавления; опция subfigure необходима для корр. работы с пакетом subfigure
+\RequirePackage{enumitem} % нормальное оформление списков
+\RequirePackage[]{biblatex}
+
+\setlist{itemsep=0.15cm,topsep=0.15cm,parsep=1pt} % настройки списков
+
+
+% Теоремы, леммы, определения...
+\usepackage{thmtools}
+
+	\usepackage[framemethod=TikZ]{mdframed}
+	\mdfsetup{skipabove=1em,skipbelow=0em}
+	\definecolor{correct}{HTML}{009900}
+	\newcommand\correct[2]{\ensuremath{\:}{\color{red}{#1}}\ensuremath{\to }{\color{correct}{#2}}\ensuremath{\:}}
+	\newcommand\green[1]{{\color{correct}{#1}}}
+
+\theoremstyle{definition}
+
+\declaretheoremstyle[
+headfont=\bfseries\sffamily\color{ForestGreen!70!black}, bodyfont=\normalfont,
+mdframed={
+	linewidth=2pt,
+	rightline=false, topline=false, bottomline=false,
+	linecolor=ForestGreen, backgroundcolor=ForestGreen!5,
+}, headpunct={\\}
+]{thmgreenbox}
+
+\declaretheoremstyle[
+headfont=\bfseries\sffamily\color{NavyBlue!70!black}, bodyfont=\normalfont,
+mdframed={
+	linewidth=2pt,
+	rightline=false, topline=false, bottomline=false,
+	linecolor=NavyBlue, backgroundcolor=NavyBlue!5,
+}, headpunct={\\}
+]{thmbluebox}
+
+\declaretheoremstyle[
+headfont=\bfseries\sffamily\color{NavyBlue!70!black}, bodyfont=\normalfont,
+mdframed={
+	linewidth=2pt,
+	rightline=false, topline=false, bottomline=false,
+	linecolor=NavyBlue
+}, headpunct={\\}
+]{thmblueline}
+
+\declaretheoremstyle[
+headfont=\bfseries\sffamily\color{RawSienna!70!black}, bodyfont=\normalfont,
+mdframed={
+	linewidth=2pt,
+	rightline=false, topline=false, bottomline=false,
+	linecolor=RawSienna, backgroundcolor=RawSienna!5,
+}, headpunct={\\}
+]{thmredbox}
+
+\declaretheoremstyle[
+headfont=\bfseries\sffamily\color{RawSienna!70!black}, bodyfont=\normalfont,
+numbered=no,
+mdframed={
+	linewidth=2pt,
+	rightline=false, topline=false, bottomline=false,
+	linecolor=RawSienna, backgroundcolor=RawSienna!1,
+}, headpunct={\\}
+]{thmproofbox}
+
+\declaretheoremstyle[
+headfont=\bfseries\sffamily\color{NavyBlue!70!black}, bodyfont=\normalfont,
+numbered=no,
+mdframed={
+	linewidth=2pt,
+	rightline=false, topline=false, bottomline=false,
+	linecolor=NavyBlue, backgroundcolor=NavyBlue!1,
+}, headpunct={\\}
+]{thmexplanationbox}
+\declaretheoremstyle[
+headfont=\bfseries\sffamily\color{Maroon!70!black}, bodyfont=\normalfont,
+numbered=no,
+mdframed={
+	linewidth=2pt,
+	rightline=false, topline=false, bottomline=false,
+	linecolor=Maroon, backgroundcolor=Maroon!1,
+}, headpunct={\\}
+]{thmtask}
+
+\declaretheorem[style=thmgreenbox, numbered=no, name=Определение]{definition}
+\declaretheorem[style=thmgreenbox, numbered=no, name=Аксиома]{axiom}
+\declaretheorem[style=thmbluebox, numbered=no, name=Пример]{example}
+\declaretheorem[style=thmredbox, numbered=no, name=Утверждение]{statement}
+\declaretheorem[style=thmexplanationbox, numbered=no, name=Замечание]{remark}
+\declaretheorem[style=thmtask, numbered=no, name=Упражнение]{task}
+\declaretheorem[style=thmredbox, name=Теорема]{theorem}
+\declaretheorem[style=thmredbox, name=Лемма]{lemma}
+\declaretheorem[style=thmredbox, numbered=no, name=Следствие]{corollary}
+
+\renewcommand\qedsymbol{$\blacksquare$} 
+
+%\theoremstyle{definition}
+%\newtheorem*{Def}{Определение}
+%\newtheorem*{Axiom}{Аксиома}
+%\newtheorem*{Note}{\underline{Замечание}}
+%\newtheoremstyle{theorem}
+%{5pt}% space before
+%{5pt}% space after
+%{\parshape 1 0.02\textwidth 0.96\textwidth \itshape}% body font
+%{-0.02\textwidth}% indent
+%{\bfseries}% header font
+%{.}% punctuation
+%{\newline}% after theorem header
+%{}% header specification (empty for default)
+%\theoremstyle{theorem}
+%\newtheorem{Th}{Теорема}
+%\newtheorem{Lem}{Лемма}
+%\newtheorem{Cor}{Следствие}
+%\newtheorem{Ex}{Пример}
+%\newtheoremstyle{indented}
+%{0pt}% space before
+%{20pt}% space after
+%{\parshape 1 0.07\textwidth 0.86\textwidth}% body font
+%{-0.05\textwidth}% indent
+%{\slshape}% header font
+%{.}% punctuation
+%{\newline}% after theorem header
+%{}% header specification (empty for default)
+%\theoremstyle{indented}
+%\newtheorem*{Solution}{Решение}
+%\newtheorem*{Proof}{Доказательство}
+
+\RequirePackage{listings}
+\RequirePackage{epigraph}
+
+
+\RequirePackage{setspace}
+\RequirePackage{lipsum}
+
+
+
+\RequirePackage{titlesec} % переопределение стилей заголовков
+\renewcommand{\thechapter}{Г\,л\,а\,в\,а~\arabic{chapter}}
+\titleformat{\chapter}[block]{\centering\fontsize{30pt}{15pt}\selectfont}{\thechapter\\}{5pt}{\bfseries}
+\titlespacing{\chapter}{0pt}{0.1\paperheight}{40pt}
+\renewcommand{\thesection}{\S\,\arabic{section}}
+\titleformat{\section}[block]{\refstepcounter{paragraph}\centering\bfseries\Large}{\thesection.}{5pt}{}
+\titlespacing{\section}{0pt}{15pt}{10pt}
+\renewcommand{\thesubsection}{\Large \textcircled{\centering \small{{\arabic{subsection}}}}
+}
+\titleformat{\subsection}[block]{\bfseries\large}{{\thesubsection}}{5pt}{}
+
+
+\addtolength{\cftchapnumwidth}{10ex}
+\renewcommand{\cftchapaftersnum}{.}
+\renewcommand{\cftchapleader}{\bfseries\cftdotfill{\cftdotsep}}
+\addtolength{\cftsecindent}{5ex}
+\addtolength{\cftsubsecindent}{5ex}
+\setlength{\cftaftertoctitleskip}{5mm} % нулевой отступ сверху от заголовка "ОГЛАВЛЕНИЕ"
+
+\makeatletter
+\let\TITLE\@title
+\let\AUTHOR\@author
+\makeatother
+
+\renewcommand{\titlepage}
+{
+	\thispagestyle{plain}
+	\newgeometry{
+		left=25mm,
+		top=25mm,
+		right=25mm,
+		bottom=17mm,
+		marginparsep=0mm,
+		marginparwidth=0mm,
+		headheight=10mm,
+		headsep=7mm,
+		nofoot}
+	\afterpage{\restoregeometry}
+	\begin{tikzpicture}[remember picture,overlay] 
+		\node[opacity=1,inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{./figures_titlepage/itmo.pdf}};
+		\node at ($ (current page.center) + (0.35\linewidth, -0.33\linewidth)$) {\scalebox{0.2}{\includegraphics{./figures_titlepage/Faculty_logo.png}}};
+		\node[text width=1\textwidth] at ($ (current page.center) + (0, 0.05\linewidth)$) {\centering \begin{doublespace}
+				\fontsize{30pt}{23pt}\selectfont \bfseries  \TITLE
+		\end{doublespace}};
+		\node[text width=1\textwidth] at ($ (current page.center) + (0, -0.2\linewidth)$) {\raggedleft\begin{doublespace}
+				\fontsize{18pt}{15pt}\selectfont \bfseries\itshape\AUTHOR
+		\end{doublespace}};
+		\node[align=center] at ($ (current page.center) + (0\linewidth, -0.525\linewidth)$) {\fontsize{18pt}{15pt}\selectfont Санкт-Петербург\\\fontsize{16pt}{15pt}\selectfont \the\year};
+	\end{tikzpicture}
+	\newpage
+	\setcounter{page}{1}
+}
+
+\renewcommand{\theequation}{\arabic{equation}}
+
+\endinput
